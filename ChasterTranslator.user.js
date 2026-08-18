@@ -1,5 +1,6 @@
 // ==UserScript==
 // @name           ChasterTranslator
+// @name:zh        Chaster 中文翻译
 // @namespace      chaster_translator
 // @version        0.3
 // @description    Chaster Translator Simplified Chinese
