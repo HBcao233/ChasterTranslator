@@ -1,17 +1,15 @@
 // ==UserScript==
-// @name           ChasterTranslator
-// @name:zh        Chaster 中文翻译
-// @namespace      chaster_translator
-// @version        0.3
-// @description    Chaster Translator Simplified Chinese
-// @description:zh Chaster 中文翻译
-// @author         HBcao
-// @match          https://*.chaster.app*
-// @icon           https://www.google.com/s2/favicons?sz=64&domain=chaster.app
-// @grant          none
-// @license        MIT
-// @downloadURL    https://update.greasyfork.org/scripts/470690/Chaster%20Translator%20zh-cn.user.js
-// @updateURL      https://update.greasyfork.org/scripts/470690/Chaster%20Translator%20zh-cn.meta.js
+// @name               ChasterTranslator
+// @name:zh-CN         Chaster 中文翻译
+// @namespace          chaster_translator
+// @version            0.3
+// @description        Chaster Translator Simplified Chinese
+// @description:zh-CN  Chaster 中文翻译
+// @author             HBcao
+// @match              https://chaster.app
+// @icon               https://www.google.com/s2/favicons?sz=64&domain=chaster.app
+// @grant              none
+// @license            MIT
 // ==/UserScript==
 
 (function () {
