@@ -2,7 +2,7 @@
 // @name               ChasterTranslator
 // @name:zh-CN         Chaster 中文翻译
 // @namespace          chaster_translator
-// @version            0.5
+// @version            0.6
 // @description        Chaster Translator Simplified Chinese
 // @description:zh-CN  Chaster 中文翻译
 // @author             HBcao
@@ -24,14 +24,6 @@
         element_func?.(c);
       }
     });
-  }
-
-  function translate_loading(node) {
-    const caption = node.querySelector('.caption');
-    caption.innerText = caption.innerText
-      .replace('Loading...', '加载中...')
-      .replace('Loading settings...', '加载设置...')
-      .replace('Loading profile...', '加载头像...');
   }
 
   function translate_bottom_menu(node) {
@@ -89,26 +81,6 @@
       c.textContent = c.textContent.replace('or ', '或 ');
     }, (c) => {
       c.innerText = c.innerText.replace('explore community locks', '探索社区锁');
-    });
-
-    const archived_locks = node.closest('.Home').querySelector('a .caption');
-    archived_locks.innerText = archived_locks.innerText.replace('View archived locks', '查看已归档的锁');
-  }
-
-  function translate_muibox(node) {
-    node.querySelectorAll('.caption').forEach((caption) => {
-      forTextNode(caption, (c) => {
-        c.textContent = c.textContent
-          .replace('You are creating a lock for yourself.', '你正在给自己创建锁。')
-          .replace('Want to create a lock for other people?', '想给他人创建锁？')
-          .replace("You’re going to create a lock to share with other people. Want to ", '你正在创建一个分享锁。想要');
-      }, (ch) => {
-        forTextNode(ch, (c) => {
-          c.textContent = c.textContent
-            .replace('Create a shared lock', '创建分享锁')
-            .replace('create a lock for yourself', '创建自锁');
-        })
-      });
     });
   }
 
@@ -178,7 +150,11 @@
           .replace('Visible', '可见')
           .replace('Hidden', '隐藏')
           .replace('Extensions', '插件')
-          .replace('Lock duration', '上锁时长');
+          .replace('Lock duration', '上锁时长')
+          .replace('All community members', '全社区成员')
+          .replace('Anyone can see and validate your submissions', '任意用户都可以查看和验证你的任务提交')
+          .replace('Only my keyholder', '仅限管理员')
+          .replace('Only your keyholder can see your submissions', '只有我的管理员可以查看你的任务提交');
       }, (ch) => {
         forTextNode(ch, (c) => {
           c.textContent = c.textContent
@@ -195,15 +171,35 @@
           .replace('How does this work?', '这是如何运作的？')
           .replace('Use Camera', '使用相机')
           .replace('Generate', '生成')
+          .replace('Add extensions', '添加扩展')
+          .replace('Edit permissions', '编辑权限')
+          .replace('Save changes', '保存修改')
+          .replace('Save the lock', '保存锁')
+          .replace('Add an action', '增加一个格子')
+          .replace('Shuffle actions', '打乱顺序')
+          .replace('Add more extensions…', '添加更多扩展…')
+          .replace('Access the application', '开始使用')
+          .replace('Archive', '归档')
+          .replace('or select a date range', '或者选择日期范围')
+          .replace('or select a duration range', '或者选择时长范围')
+          .replace('Restore draft', '恢复草稿')
+          .replace('Discard', '丢弃')
+          .replace('Add an action', '增加一项')
+          .replace('All community members', '全社区成员')
+          .replace('Only my keyholder', '仅限管理员')
+          .replace('Add a task', '增加任务')
+          .replace('or let the wearer configure the tasks', '或者让佩戴者自行配置任务')
+          .replace('Configure the task list myself', '我自己配置任务列表')
+          .replace('Save', '保存')
+          .replace('Actions', '操作')
+          .replace('Cancel', '取消')
           .replace('Hide', '隐藏')
-          .replace('Continue', '继续');
-      })
-    });
-    node.querySelectorAll('.CheckboxGroupItem').forEach((checkbox) => {
-      forTextNode(checkbox, (c) => {
-        c.textContent = c.textContent
-          .replace('Request combination image verification', '请求人工检查照片');
-      })
+          .replace('Continue', '继续')
+          .replace('Configure', '配置');
+      });
+      if (btn.children.length === 0) {
+        btn.style.flexShrink = '0'
+      }
     });
 
     node.querySelectorAll('h5').forEach((h5) => {
@@ -243,6 +239,171 @@
           .replace('minute', '分');
       })
     });
+
+    node.querySelectorAll('.MuiFormLabel-root').forEach((label) => {
+      forTextNode(label, (c) => {
+        c.textContent = c.textContent
+          .replace('Who can validate submissions', '谁可以验证任务提交')
+          .replace('Voting duration', '投票时长')
+          .replace('Number of votes', '投票数量')
+          .replace('Require a verification picture', '需要照片核验')
+          .replace('Enable timed task', '启用限时任务')
+          .replace('Duration', '时长')
+          .replace('Require a verification code', '需要验证码')
+          .replace('Points', '点数');
+      });
+    });
+
+    node.querySelectorAll('.caption').forEach((caption) => {
+      forTextNode(caption, (c) => {
+        c.textContent = c.textContent
+          .replace('Loading...', '加载中...')
+          .replace('Loading settings...', '加载设置...')
+          .replace('Loading profile...', '加载头像...')
+          .replace('View archived locks', '查看已归档的锁')
+          .replace('You are creating a lock for yourself.', '你正在给自己创建锁。')
+          .replace('Want to create a lock for other people?', '想给他人创建锁？')
+          .replace("You’re going to create a lock to share with other people. Want to ", '你正在创建一个分享锁。想要')
+          .replace('You will find your lock in the list of archived locks.', '归档后你可以在已归档锁列表找到它。')
+          .replace('You can also leave it blank and select a keyholder later, or send an invite link to someone.', '你也可以暂时留空，稍后再选择管理员或者通过给其他人发送邀请链接。')
+          .replace('You will be able to release yourself after this time, regardless of the extensions.', '在此时间之后你无论如何都能够解锁')
+          .replace('Share your lock with others', '分享给其他人投票')
+          .replace('Temporarily unlock yourself', '自我清洁解锁')
+          .replace('Be displayed publicly when you receive a penalty', '受到惩罚时公开')
+          .replace('Roll the dice and try to reduce your time locked', '掷骰子来尝试减少你的锁定时间')
+          .replace('Try your luck by spinning the Wheel of Fortune', '转动幸运转盘来试试你的运气')
+          .replace('Receive tasks and earn points to be unlocked', '接受任务并赚取积分才能解锁你的锁')
+          .replace('Regularly take a picture of your device or restraint to show that you are locked', '周期性地拍照来证明你已戴锁')
+          .replace('With the timer hidden, guess when you think the timer is finished', '隐藏计时器，猜猜何时结束')
+          .replace('Add randomness to your lock', '给你的锁带来随机性')
+          .replace('Receive penalties when you do not perform actions on time', '未按时执行操作将受到惩罚')
+          .replace('Share a link to other people to ask them to add or remove time to your lock.', '分享链接给其他人，让他们帮你增加或减少锁的时间。')
+          .replace('Because hygiene is important, unlock yourself regularly to clean your chastity device. Be careful, if you exceed the allowed time, you will receive a penalty.', '因为卫生很重要，请定期解锁并清洁贞操锁。注意，如果你超时了还没锁回去，你将受到惩罚。')
+          .replace('When you receive a penalty, be displayed publicly for a specified period of time. Other users will be able to add time to your lock.', '当受到惩罚时，你的锁将被公开显示一段时间。其他人可以给你的锁增加时间。')
+          .replace('With every action, you and the bot roll a dice. If you do more than the bot, time is removed. If the bot does more, time is added.', '和机器人一起玩投骰子。如果你的点数更大，则减少时间；如果机器人的点数更大，则增加')
+          .replace('Turn the wheel of fortune and change the duration of your lock. Configure actions for each cell of the wheel of fortune: time added or removed, frozen timer or custom text for your dares.', '转动幸运转盘以改变你的锁定时间。你可以配置转盘每个格子选项：增加或减少时间、冻结时间或自定义挑战文本。')
+          .replace('Spice up your session by receiving tasks. Configure the tasks you want to do, and receive a random task, or ask other users to vote.', '通过接取任务来丰富你的戴锁体验。')
+          .replace('Time added if the visitor chooses to add you time.', '当别人选择给你加时时增加的时间量。')
+          .replace('Time removed if the visitor chooses to remove you time.', '当别人选择给你减时时减少的时间量。')
+          .replace('You will need to get a certain number of visitors before you can unlock your lock.', '当投票数量大于等于此数量你才能解锁。')
+          .replace('Maximum time allowed to open your lock.', '允许开锁的时间。')
+          .replace('If you do not lock up before the allowed time, this time is added to your lock.', '如果你超时还没锁回去，锁将会增加的时间。')
+          .replace('Time added for each vote of a visitor', '访问者每投一票增加的时间')
+          .replace('The wearer will need to get a certain number of visitors before they can unlock their lock.', '佩戴者需要获得此数量的投票才能解锁。')
+          .replace('Select the extension mode', '选择扩展模式')
+          .replace('Choose the number of sides on the dice.', '选择骰子的面数。')
+          .replace('Configure your wheel of fortune', '配置你的幸运转盘')
+          .replace('The difference between the two dice will be multiplied by this time.', '两个骰子点数之差乘以此时间。')
+          .replace('Select the extension mode', '选择扩展模式')
+          .replace('Spice up your session by receiving tasks. Configure the tasks you want to do, and receive a random task, or ask other users to vote.', '通过接取任务来丰富你的戴锁体验。')
+          .replace('By configuring points, you can assign points to each task. Earn more points, and set a goal of points required to get unlocked.', '启用任务点，你可以为每个任务设置点数。赚取更多任务点，并设置解锁所需的点数。')
+          .replace('Require a photo as proof of task completion. On selected tasks, you must upload a picture demonstrating that you have successfully finished the task.', '需要提供照片作为任务完成证明。你可以让选中的任务，要求上传一张照片，以证明你已成功完成该任务。')
+          .replace('Configure the tasks you would like to do during your session.', '配置您希望在上锁期间执行的任务。')
+          .replace('Allow task editing.', '配置任务编辑。')
+          .replace('Allow wearers to assign and modify tasks.', '配置佩戴者分配和修改任务。')
+          .replace('You will need to get a certain amount of points before you can unlock your lock.', '你需要至少获得此数量的任务点才能解锁。')
+          .replace('Penalty when your verification is rejected', '当你的任务提交被拒绝时将受到的惩罚')
+          .replace('Penalty when the verification is rejected', '当任务提交被拒绝时将受到的惩罚')
+          .replace('Penalty when a task is abandoned', '当放弃任务时将受到的惩罚')
+          .replace('Require a photo as proof of task completion. On selected tasks, wearers must upload a picture demonstrating that they have successfully finished the task.', '需要提供照片作为任务完成证明。你可以让选中的任务，要求上传一张照片，以证明佩戴者已成功完成该任务。');
+      }, (ch) => {
+        if (ch.nodeName === 'UL') {
+          ch.childNodes.forEach((li) => {
+            li.innerText = li.innerText
+              .replace('Wheel of Fortune extension: you fall on the pillory cell', '幸运转盘扩展：落在公开羞辱格子')
+              .replace('Keyholder: your keyholder put you in the pillory', '管理员：你的管理员手动开启公开羞辱')
+              .replace('Punishments extension: you receive a penalty', '惩罚扩展：当你受到惩罚时')
+              .replace('Peer verifications: your verification picture is rejected', '拍照验证扩展：你的验证被否决');
+          });
+        } else {
+          forTextNode(ch, (c) => {
+            c.textContent = c.textContent
+              .replace('Create a shared lock', '创建分享锁')
+              .replace('create a lock for yourself', '创建自锁')
+              .replace('After unlocking yourself, you will have to wait this duration before you can unlock yourself again.', '解锁后你需要等待此时间后才能再次解锁。')
+              .replace('You can be pilloried for the following reasons:', '你会因为以下原因而被公开羞辱：')
+              .replace('Note: you cannot pillory yourself.', '注意：你不能自己开启公开羞辱。')
+              .replace('After using the extension, you will have to wait this duration before using it again.', '使用该扩展后，你需要等待此时间后才能再次使用。')
+              .replace('After using the extension, you will have to wait this duration before getting another try.', '使用该扩展后，你需要等待此时间后才能再次尝试。');
+          });
+        }
+      });
+
+      const previous = caption.previousElementSibling;
+      if (previous) {
+        forTextNode(previous, (c) => {
+          c.textContent = c.textContent
+            .replace('Archive your lock', '归档该锁')
+            .replace('Task points', '任务点')
+            .replace('Task verification', '任务核验')
+            .replace('Tasks', '任务')
+            .replace('Assign and edit votes', '任务分配与编辑')
+            .replace('Time to add', '增加的时间')
+            .replace('Time to remove', '减少的时间')
+            .replace('Regularity', '周期')
+            .replace('Time allowed', '允许时间')
+            .replace('Penalty for time exceeded', '超时惩罚')
+            .replace('Time added per vote', '每票增加的时间')
+            .replace('How can I be pilloried?', '什么时候我会被公开羞辱？')
+            .replace('Mode', '模式')
+            .replace('Dice type', '骰子类型')
+            .replace('Time multiplier', '时间倍率')
+            .replace('Actions', '转盘格子');
+        });
+
+        const title = caption.previousElementSibling.children[1]?.firstElementChild?.firstElementChild;
+        if (title) forTextNode(title, (c) => {
+          c.textContent = c.textContent
+            .replace('Share links', '分享链接')
+            .replace('Hygiene opening', '清洁开锁')
+            .replace('Pillory', '公开羞辱')
+            .replace('Dice', '骰子')
+            .replace('Wheel of Fortune', '幸运转盘')
+            .replace('Tasks', '任务')
+            .replace('Verification picture', '拍照验证')
+            .replace('Guess the Timer', '猜时间')
+            .replace('Random Events', '随机事件')
+            .replace('Penalties', '惩罚');
+        });
+      }
+    });
+
+    node.querySelectorAll('.MuiFormHelperText-root').forEach((helper) => {
+      forTextNode(helper, (c) => {
+        c.textContent = c.textContent
+          .replace('Voting closes as soon as this many votes are cast. Between 3 and 100 votes.', '当投票达到这个数量时就会立即关闭。填写范围：3～100')
+          .replace('Require a minimum time before the task can be marked complete.', '要求任务必须在一定时间内完成。');
+      })
+    });
+
+    node.querySelectorAll('.MuiMenuItem-root').forEach((a) => {
+      forTextNode(a, (c) => {
+        c.textContent = c.textContent
+          .replace('View the lock page', '查看锁介绍页')
+          .replace('Create a lock from this template', '以此为模板创建锁');
+      })
+    });
+
+    node.querySelectorAll('.form-label').forEach((label) => {
+      forTextNode(label, (c) => {
+        c.textContent = c.textContent
+          .replace('Copy and share this link to invite other users to use your shared lock.', '复制并分享此链接来邀请其他人来使用你的共享锁。');
+      });
+
+      const f = label.nextElementSibling.nextElementSibling;
+      if (f) {
+        forTextNode(f, (c) => {
+          c.textContent = c.textContent
+            .replace('You can also', '你也可以')
+            .replace('to share on social networks.', '分享到社交媒体');
+        }, (ch) => {
+          forTextNode(ch, (c) => {
+            c.textContent = c.textContent
+              .replace('create an image', '创建图片');
+          });
+        });
+      }
+    });
   }
 
   function translate_form(form) {
@@ -258,34 +419,6 @@
             .replace('You have an unsaved draft. Would you like to restore it?', '您有一个未保存的草稿。您想恢复它吗？')
             .replace('Uploaded images will need to be re-added.', '已上传的图片需要重新上传。');
         });
-      alert_root.querySelectorAll('button')
-        .forEach((btn) => {
-          btn.innerText = btn.innerText
-            .replace('Restore draft', '恢复草稿')
-            .replace('Discard', '丢弃');
-        });
-    }
-
-    const submit = form.querySelector('button[type="submit"]');
-    submit.innerText = submit.innerText
-      .replace('Continue', '继续');
-
-    const form_label = form.querySelector('.form-label');
-    if (form_label) {
-      form_label.innerText = form_label.innerText
-        .replace('Copy and share this link to invite other users to use your shared lock.', '复制并分享此链接来邀请其他人来使用你的共享锁。');
-
-      const f = form_label.nextElementSibling.nextElementSibling;
-      f.childNodes.forEach((c) => {
-        if (c.nodeType === Node.TEXT_NODE) {
-          c.textContent = c.textContent
-            .replace('You can also', '你也可以')
-            .replace('to share on social networks.', '分享到社交媒体');
-        } else {
-          c.innerText = c.innerText
-            .replace('create an image', '创建图片');
-        }
-      });
     }
   }
 
@@ -325,21 +458,6 @@
         translate_permissions(c);
         translate_list_group(card.nextElementSibling);
       }
-
-      if (card.firstElementChild?.firstElementChild) {
-        const children = card.firstElementChild.children;
-        for (const c of children) {
-          translate_feature_card(c);
-        }
-      }
-    }
-
-    const btn = caption.parentElement?.nextElementSibling?.querySelector('button');
-    if (btn) {
-      forTextNode(btn, (c) => {
-        c.textContent = c.textContent
-          .replace('Add extensions', '添加扩展');
-      })
     }
 
     const alert_root = caption.parentElement?.parentElement?.nextElementSibling;
@@ -357,24 +475,10 @@
             .replace('members', '用户');
         });
       });
-
-      const t1 = alert_root.nextElementSibling;
-      if (t1) {
-        t1.querySelectorAll('.card-content').forEach((card) => {
-          translate_feature_card(card);
-        });
-
-        forTextNode(t1.nextElementSibling.querySelector('button'), (c) => {
-          c.textContent = c.textContent.
-            replace('Add more extensions…', '添加更多扩展…');
-        });
-      }
     }
   }
 
-
   function translate_permissions(node) {
-    // console.log('permissions:', node);
     const title = node.querySelector('.MuiTypography-title-md');
     title.innerText = title.innerText.replace('Permissions', '权限');
 
@@ -390,12 +494,6 @@
     const body = node.querySelector('.MuiTypography-root');
     if (body) body.innerText = body.innerText
       .replace('The keyholder runs the session with the usual controls.', '管理员控制锁的方式');
-
-    const btn = node.querySelector('button');
-    forTextNode(btn, (c) => {
-      c.textContent = c.textContent
-        .replace('Edit permissions', '编辑权限');
-    });
   }
 
   function translate_DurationSelector(node) {
@@ -424,16 +522,6 @@
       translate_DurationSelector(c.nextElementSibling);
     });
 
-    // console.log('card', node)
-    node.querySelectorAll('button').forEach((btn) => {
-      forTextNode(btn, (c) => {
-        c.textContent = c.textContent
-          .replace('Archive', '归档')
-          .replace('or select a date range', '或者选择日期范围')
-          .replace('or select a duration range', '或者选择时长范围');
-      });
-    });
-
     node.querySelectorAll('label').forEach((label) => {
       label.innerText = label.innerText
         .replace('Lock name', '名称')
@@ -451,19 +539,9 @@
       const t = lock_photo.previousElementSibling.previousElementSibling;
       t.innerText = t.innerText.replace('Lock photo', '封面');
     }
-
-    const caption = node.querySelector('.caption');
-    if (caption) {
-      caption.innerText = caption.innerText
-        .replace('You will find your lock in the list of archived locks.', '归档后你可以在已归档锁列表找到它。');
-
-      caption.previousElementSibling.innerText = caption.previousElementSibling.innerText
-        .replace('Archive your lock', '归档该锁');
-    }
   }
 
   function translate_list_group(node) {
-    // console.log('list group', node)
     node.querySelectorAll('.checkbox-label-title').forEach((label) => {
       forTextNode(label, (c) => {
         c.textContent = c.textContent
@@ -492,39 +570,6 @@
     });
   }
 
-  function translate_feature_card(node) {
-    node.querySelectorAll('.caption').forEach((caption) => {
-      if (caption.children.length === 0) {
-        caption.innerText = caption.innerText
-          .replace('Share your lock with others', '分享给其他人投票')
-          .replace('Temporarily unlock yourself', '自我清洁解锁')
-          .replace('Be displayed publicly when you receive a penalty', '受到惩罚时公开')
-          .replace('Roll the dice and try to reduce your time locked', '掷骰子来尝试减少你的锁定时间')
-          .replace('Try your luck by spinning the Wheel of Fortune', '转动幸运转盘来试试你的运气')
-          .replace('Receive tasks and earn points to be unlocked', '接受任务并赚取积分才能解锁你的锁')
-          .replace('Regularly take a picture of your device or restraint to show that you are locked', '周期性地拍照来证明你已戴锁')
-          .replace('With the timer hidden, guess when you think the timer is finished', '隐藏计时器，猜猜何时结束')
-          .replace('Add randomness to your lock', '给你的锁带来随机性')
-          .replace('Receive penalties when you do not perform actions on time', '未按时执行操作将受到处罚');
-
-        const title = caption.previousElementSibling.children[1]?.firstElementChild?.firstElementChild;
-        if (title) forTextNode(title, (c) => {
-          c.textContent = c.textContent
-            .replace('Share links', '分享链接')
-            .replace('Hygiene opening', '清洁开锁')
-            .replace('Pillory', '公开羞辱')
-            .replace('Dice', '骰子')
-            .replace('Wheel of Fortune', '幸运转盘')
-            .replace('Tasks', '任务')
-            .replace('Verification picture', '拍照验证')
-            .replace('Guess the Timer', '猜时间')
-            .replace('Random Events', '随机事件')
-            .replace('Penalties', '惩罚');
-        })
-      }
-    });
-  }
-
   function translate_modal(node) {
     const h2 = node.querySelector('h2');
     forTextNode(h2, (c) => {
@@ -534,31 +579,33 @@
     });
 
     node.querySelectorAll('p').forEach(p => {
-      p.innerText = p.innerText
-        .replace('Choose what each party can do during the session. The other party accepts these terms by joining.', '选择佩戴者和管理员可以进行的操作。佩戴者或管理员加入即代表同意此条款。')
-        .replace('Start from a preset', '使用预设')
-        .replace('Standard', '标准')
-        .replace('The keyholder runs the session with the usual controls; extensions stay as configured.', '管理员可对锁进行常规控制；无法修改扩展配置。')
-        .replace('Trusted keyholder', '信任管理员')
-        .replace('The keyholder controls everything about the session, including extensions.', '管理员可以控制一切，包括扩展配置。')
-        .replace('Full trust', '完全信任')
-        .replace('Wearer and keyholder can both change anything at any time.', '佩戴者和管理员都可以修改一切。')
-        .replace('Custom', '自定义')
-        .replace('Wearer', '佩戴者')
-        .replace('Keyholder', '管理员')
-        .replace('Time', '时间')
-        .replace('Add time', '增加时间')
-        .replace('Remove time', '减少时间')
-        .replace('Freeze the timer', '冻结计时器')
-        .replace('Unfreeze the timer', '解冻计时器')
-        .replace('Limits', '上下限')
-        .replace('Change the minimum date', '修改最小时长')
-        .replace('Change the maximum date', '修改最大时长')
-        .replace('Visibility', '可见性')
-        .replace('Show or hide the timer', '显示/隐藏时间')
-        .replace('Show or hide time values in history', '显示/隐藏历史记录中的时间信息')
-        .replace('Extensions', '扩展')
-        .replace('Manage extensions', '管理扩展');
+      forTextNode(p, (c) => {
+        c.textContent = c.textContent
+          .replace('Choose what each party can do during the session. The other party accepts these terms by joining.', '选择佩戴者和管理员可以进行的操作。佩戴者或管理员加入即代表同意此条款。')
+          .replace('Start from a preset', '使用预设')
+          .replace('Standard', '标准')
+          .replace('The keyholder runs the session with the usual controls; extensions stay as configured.', '管理员可对锁进行常规控制；无法修改扩展配置。')
+          .replace('Trusted keyholder', '信任管理员')
+          .replace('The keyholder controls everything about the session, including extensions.', '管理员可以控制一切，包括扩展配置。')
+          .replace('Full trust', '完全信任')
+          .replace('Wearer and keyholder can both change anything at any time.', '佩戴者和管理员都可以修改一切。')
+          .replace('Custom', '自定义')
+          .replace('Wearer', '佩戴者')
+          .replace('Keyholder', '管理员')
+          .replace('Time', '时间')
+          .replace('Add time', '增加时间')
+          .replace('Remove time', '减少时间')
+          .replace('Freeze the timer', '冻结计时器')
+          .replace('Unfreeze the timer', '解冻计时器')
+          .replace('Limits', '上下限')
+          .replace('Change the minimum date', '修改最小时长')
+          .replace('Change the maximum date', '修改最大时长')
+          .replace('Visibility', '可见性')
+          .replace('Show or hide the timer', '显示/隐藏时间')
+          .replace('Show or hide time values in history', '显示/隐藏历史记录中的时间信息')
+          .replace('Extensions', '扩展')
+          .replace('Manage extensions', '管理扩展');
+      });
     });
 
     const alert_text = node.querySelector('.MuiAlert-root')?.lastChild;
@@ -567,17 +614,10 @@
         .replace('The Keyholder column applies only once a keyholder holds this lock.', '"管理员"列权限只在管理员持有此锁时生效。');
     }
 
-    node.querySelectorAll('button').forEach((btn) => {
-      if (btn.children.length === 0) {
-        forTextNode(btn, (c) => {
-          btn.textContent = btn.textContent
-            .replace('Cancel', '取消')
-            .replace('Save changes', '保存修改')
-            .replace('Save', '保存');
-        });
-        btn.style.flexShrink = '0';
-      }
-    });
+    const modes = node.querySelector('.modes');
+    if (modes) {
+      translate_modes(modes)
+    }
   }
 
   function translate_tooltip(node) {
@@ -598,7 +638,21 @@
       .replace('The lock cannot end before this duration.', '该锁在此时间之前无法解锁')
       .replace('The lock cannot be extended beyond this duration.', '该锁的锁定时间不会超过此期限。')
       .replace('Whether the countdown timer is visible to you during the lock.', '该锁的倒计时是否可见。')
-      .replace('Our team will check your image and confirm that the combination is clearly readable.', '我们团队将会检查你的照片，确保上面的数字清晰可读。');
+      .replace('Our team will check your image and confirm that the combination is clearly readable.', '我们团队将会检查你的照片，确保上面的数字清晰可读。')
+      .replace('After each action, you will have to wait a certain amount of time before reusing the extension.', '每次使用后，你需要等待一段时间才能再次使用该扩展。')
+      .replace('The number of possible actions of the extension is cumulated over time.', '扩展可使用次数会随时间累积。')
+      .replace('You can use the extension as many times as you like.', '你可以根据需要多次使用该扩展。')
+      .replace('Assign points to each task and set a point goal.', '为每个任务分配任务点并设定目标点数。')
+      .replace('The selected validators will need to approve your image, otherwise you will receive a penalty.', '选定的验证者需要批准您的图片，否则您将受到惩罚。')
+      .replace('You will be able to create, edit and remove tasks.', '启用后你将能够新增、修改或移除任务。')
+      .replace('If the option is unchecked, only your keyholder can assign you a task.', '如果未启用该选项，只有你的管理员可以给你分配任务。')
+      .replace('You will be able to choose your own task.', '启用后你将能够自己选择任务')
+      .replace('You will receive a penalty if you abandon your task.', '启用后如果你放弃任务，将会受到惩罚。')
+      .replace('Make sure you have a way to unfreeze yourself (keyholder, other extensions, etc.), otherwise you risk being frozen indefinitely!', '请确保您有办法解除冻结（例如管理员或其他扩展），否则您可能会被永久冻结！')
+      .replace('Wearers will be able to create, edit and remove tasks.', '启用后佩戴者将能够新增、修改或移除任务。')
+      .replace('If the option is unchecked, only you will be able to assign tasks to your wearers.', '如果未启用该选项，只有佩戴者的管理员可以给他分配任务。')
+      .replace('Wearers will be able to choose their own task.', '启用后佩戴者将能够自己选择任务')
+      .replace('Wearers will receive a penalty if they abandon their task.', '启用后如果佩戴者放弃任务，将会受到惩罚。');
   }
 
   function translate_extension_modal(node) {
@@ -621,56 +675,6 @@
         .replace('Penalties', '惩罚');;
     });
 
-    node.querySelectorAll('.modal-body .caption').forEach((caption) => {
-      forTextNode(caption, (c) => {
-        c.textContent = c.textContent
-          .replace('Share a link to other people to ask them to add or remove time to your lock.', '分享链接给其他人，让他们帮你增加或减少锁的时间。')
-          .replace('Because hygiene is important, unlock yourself regularly to clean your chastity device. Be careful, if you exceed the allowed time, you will receive a penalty.', '因为卫生很重要，请定期解锁并清洁贞操锁。注意，如果你超时了还没锁回去，你将受到惩罚。')
-          .replace('When you receive a penalty, be displayed publicly for a specified period of time. Other users will be able to add time to your lock.', '当受到惩罚时，你的锁将被公开显示一段时间。其他人可以给你的锁增加时间。')
-          .replace('With every action, you and the bot roll a dice. If you do more than the bot, time is removed. If the bot does more, time is added.', '和机器人一起玩投骰子。如果你的点数更大，则减少时间；如果机器人的点数更大，则增加')
-          .replace('Turn the wheel of fortune and change the duration of your lock. Configure actions for each cell of the wheel of fortune: time added or removed, frozen timer or custom text for your dares.', '转动幸运转盘以改变你的锁定时间。你可以配置转盘每个格子选项：增加或减少时间、冻结时间或自定义挑战文本。')
-          .replace('Spice up your session by receiving tasks. Configure the tasks you want to do, and receive a random task, or ask other users to vote.', '通过接取任务来丰富你的戴锁体验。')
-          .replace('Time added if the visitor chooses to add you time.', '当别人选择给你加时时增加的时间量。')
-          .replace('Time removed if the visitor chooses to remove you time.', '当别人选择给你减时时减少的时间量。')
-          .replace('You will need to get a certain number of visitors before you can unlock your lock.', '当投票数量大于等于此数量你才能解锁。')
-          .replace('Maximum time allowed to open your lock.', '允许开锁的时间。')
-          .replace('If you do not lock up before the allowed time, this time is added to your lock.', '如果你超时还没锁回去，锁将会增加的时间。')
-          .replace('Time added for each vote of a visitor', '访问者每投一票增加的时间')
-          .replace('The wearer will need to get a certain number of visitors before they can unlock their lock.', '佩戴者需要获得此数量的投票才能解锁。');
-      }, (ch) => {
-        if (ch.nodeName === 'UL') {
-          ch.childNodes.forEach((li) => {
-            li.innerText = li.innerText
-              .replace('Wheel of Fortune extension: you fall on the pillory cell', '幸运转盘扩展：落在公开羞辱格子')
-              .replace('Keyholder: your keyholder put you in the pillory', '管理员：你的管理员手动开启公开羞辱')
-              .replace('Punishments extension: you receive a penalty', '惩罚扩展：当你受到惩罚时')
-              .replace('Peer verifications: your verification picture is rejected', '拍照验证扩展：你的验证被否决');
-          });
-        } else {
-          forTextNode(ch, (c) => {
-            c.textContent = c.textContent
-              .replace('After unlocking yourself, you will have to wait this duration before you can unlock yourself again.', '解锁后你需要等待此时间后才能再次解锁。')
-              .replace('You can be pilloried for the following reasons:', '你会因为以下原因而被公开羞辱：')
-              .replace('Note: you cannot pillory yourself.', '注意：你不能自己开启公开羞辱。');
-          });
-        }
-      });
-
-      const previous = caption.previousElementSibling;
-      if (previous) {
-        forTextNode(previous, (c) => {
-          c.textContent = c.textContent
-            .replace('Time to add', '增加的时间')
-            .replace('Time to remove', '减少的时间')
-            .replace('Regularity', '周期')
-            .replace('Time allowed', '允许时间')
-            .replace('Penalty for time exceeded', '超时惩罚')
-            .replace('Time added per vote', '每票增加的时间')
-            .replace('How can I be pilloried?', '什么时候我会被公开羞辱？');
-        })
-      }
-    });
-
     node.querySelectorAll('.modal-body label').forEach((label) => {
       forTextNode(label, (c) => {
         c.textContent = c.textContent
@@ -688,24 +692,60 @@
       })
     });
 
-    node.querySelectorAll('.modal-body .CheckboxGroupItem').forEach((checkbox) => {
-      forTextNode(checkbox, (c) => {
+    const modes = node.querySelector('.modes');
+    if (modes) {
+      translate_modes(modes)
+    }
+  }
+
+  function translate_modes(node) {
+    node.querySelectorAll('.custom-control-label span').forEach((span) => {
+      forTextNode(span, (c) => {
         c.textContent = c.textContent
-          .replace('Allow only the keyholder to open the lock temporarily', '需要管理员同意才能清洁开锁')
-          .replace('Freeze lock while temporarily opened', '清洁开锁时冻结时间')
-          .replace('Require verification picture before opening', '清洁开锁前需要拍照验证')
-          .replace('Request verification picture after opening', '清洁开锁后需要拍照验证');
+          .replace('Non cumulative', '不累积')
+          .replace('Cumulative', '累积')
+          .replace('Unlimited', '无限制');
+      })
+    })
+  }
+
+  function translate_select(node) {
+    node.childNodes.forEach((option) => {
+      forTextNode(option, (c) => {
+        c.textContent = c.textContent
+          .replace('Add time', '增加时间')
+          .replace('Remove time', '减少时间')
+          .replace('Add or remove time', '增加/减少时间')
+          .replace('Text', '文本')
+          .replace('Freeze / unfreeze', '冻结 / 解冻')
+          .replace('Freeze', '冻结')
+          .replace('Unfreeze', '解冻')
+          .replace('Pillory', '公开羞辱');
       })
     });
+  }
 
-    node.querySelectorAll('.modal-footer button').forEach((btn) => {
-      if (btn.children.length === 0) {
-        btn.innerText = btn.innerText
-          .replace('Cancel', '取消')
-          .replace('Save changes', '保存修改');
-      }
+  function translate_checkbox(checkbox) {
+    forTextNode(checkbox, (c) => {
+      c.textContent = c.textContent
+        .replace('Request combination image verification', '请求人工检查照片')
+        .replace('Allow only the keyholder to open the lock temporarily', '需要管理员同意才能清洁开锁')
+        .replace('Freeze lock while temporarily opened', '清洁开锁时冻结时间')
+        .replace('Require verification picture before opening', '清洁开锁前需要拍照验证')
+        .replace('Request verification picture after opening', '清洁开锁后需要拍照验证')
+        .replace('Enable task points', '启用任务点')
+        .replace('Enable verification', '启用任务核验')
+        .replace('Allow editing tasks while you are locked', '允许你上锁时编辑任务')
+        .replace('Allow you to assign a task randomly or by creating a vote', '允许你随机选择任务或投票选择任务')
+        .replace('Allow you to choose your own task from the list', '允许你自己选择任务')
+        .replace('Give a penalty when a task is abandoned', '放弃任务应受到惩罚')
+        .replace('End voting early once enough votes are in', '当投票足够时提前结束')
+        .replace('Allow wearers to edit tasks while they are locked', '允许佩戴者上锁时编辑任务')
+        .replace('Allow wearers to assign tasks to themselves', '允许佩戴者自行分配任务')
+        .replace('Allow wearers to choose their own task from the list', '允许佩戴者自己选择任务');
     });
   }
+
 
   const config = {
     childList: true,
@@ -737,11 +777,9 @@
 
             break;
           case Node.ELEMENT_NODE:
-            // console.log('add element:', node);
+            // console.log('add element:', node.outerHTML);
 
-            if (node.classList.contains('full-page-loader')) {
-              translate_loading(node);
-            }
+            translate_p(node);
 
             const h1 = node.querySelector('.Home h1');
             if (h1) {
@@ -749,9 +787,6 @@
               c.innerText = c
                 .innerText
                 .replace('The ultimate chastity experience', '终极贞操体验');
-              const btn = c.nextElementSibling.querySelector('button');
-              btn.firstChild.textContent = btn.firstChild.textContent
-                .replace('Access the application', '开始使用');
             }
 
             const bottom_menu = node.querySelector('.BottomMenuBar');
@@ -768,12 +803,6 @@
             if (no_locks) {
               translate_no_locks(no_locks);
             }
-
-            const muibox = node.querySelector('.MuiBox-root');
-            if (muibox) {
-              translate_muibox(muibox);
-            }
-            translate_p(node);
 
             const form = node.querySelector('form');
             if (form) {
@@ -803,15 +832,6 @@
                   .replace('Enter the keyholder username', '输入管理员的用户名');
               });
 
-              const cap = node.querySelector('.caption');
-              if (cap) {
-                forTextNode(cap, (c) => {
-                  c.textContent = c.textContent
-                    .replace('You can also leave it blank and select a keyholder later, or send an invite link to someone.', '你也可以暂时留空，稍后再选择管理员或者通过给其他人发送邀请链接。')
-                    .replace('You will be able to release yourself after this time, regardless of the extensions.', '在此时间之后你无论如何都能够解锁');
-                });
-              }
-
               node.querySelectorAll('label').forEach((label) => {
                 forTextNode(label, (c) => {
                   c.textContent = c.textContent
@@ -824,8 +844,6 @@
               translate_tooltip(node);
             } else if (node.classList.contains('ExtensionConfigModal')) {
               translate_extension_modal(node);
-            } else if (node.classList.contains('card-content')) {
-              translate_feature_card(node);
             } else if (node.classList.contains('MinMaxDurationSelector')) {
               translate_card(node)
             } else if (node.classList.contains('row')) {
@@ -838,19 +856,38 @@
               });
             }
 
-            const btn = node.querySelector('.MuiButton-root');
-            if (btn) {
-              forTextNode(btn, (c) => {
-                c.textContent = c.textContent
-                  .replace('Configure', '配置');
-              })
+            const extension_modal = node.closest('.ExtensionConfigModal');
+            if (extension_modal) {
+              translate_extension_modal(extension_modal);
+            }
+
+            node.querySelectorAll('select').forEach((select) => {
+              translate_select(select);
+            });
+
+            node.querySelectorAll('.CheckboxGroupItem').forEach((checkbox) => {
+              translate_checkbox(checkbox)
+            })
+
+            if (node.classList.contains('form-group')) {
+              node.querySelectorAll('label').forEach((label) => {
+                forTextNode(label, (c) => {
+                  c.textContent = c.textContent
+                    .replace('Points required', '点数要求')
+                });
+              });
             }
 
             forTextNode(node, (c) => {
               c.textContent = c.textContent
                 .replace('You can also leave it blank and select a keyholder later, or send an invite link to someone.', '你也可以暂时留空，稍后再选择管理员或者通过给其他人发送邀请链接。')
                 .replace('By enabling this option, you will need to have a keyholder to unlock yourself temporarily.', '启用后你必须有管理员才能清洁开锁。')
-                .replace('You need to enable the Verification Picture extension for these options to have effect.', '你需要启用拍照验证扩展该选项才能生效。');
+                .replace('You need to enable the Verification Picture extension for these options to have effect.', '你需要启用拍照验证扩展该选项才能生效。')
+                .replace('After using the extension, you will have to wait this duration before using it again.', '使用该扩展后，你需要等待此时间后才能再次使用。')
+                .replace('After using the extension, you will have to wait this duration before getting another try.', '使用该扩展后，你需要等待此时间后才能再次尝试。')
+                .replace('Add at least two actions.', '至少要有两个格子。')
+                .replace('Enter a task.', '请输入任务')
+                .replace('By disabling this option, you will need to have a keyholder to receive tasks.', '禁用该选项后，只有你的管理员可以给你分配任务。');
             });
 
             break;
